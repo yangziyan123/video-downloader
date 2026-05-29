@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: deploy/backend.Dockerfile
+      args:
+        PYTHON_IMAGE: ${PYTHON_IMAGE:-python:3.11-slim}
     env_file:
       - backend/.env
     volumes:
@@ -20,6 +22,9 @@ services:
     build:
       context: .
       dockerfile: deploy/frontend.Dockerfile
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-node:22-alpine}
+        NGINX_IMAGE: ${NGINX_IMAGE:-nginx:1.27-alpine}
     ports:
       - "${WEB_PORT:-8080}:80"
     depends_on:
