@@ -5,8 +5,13 @@ services:
       dockerfile: deploy/backend.Dockerfile
       args:
         PYTHON_IMAGE: ${PYTHON_IMAGE:-python:3.11-slim}
+        APT_MIRROR: ${APT_MIRROR:-http://mirrors.aliyun.com/debian}
+        APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-http://mirrors.aliyun.com/debian-security}
     env_file:
-      - backend/.env
+      - path: ./backend/.env
+        required: false
+    ports:
+      - "${API_PORT:-8000}:8000"
     volumes:
       - backend_data:/app/data
       - backend_downloads:/app/downloads
